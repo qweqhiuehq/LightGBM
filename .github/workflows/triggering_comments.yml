@@ -16,8 +16,12 @@ jobs:
         permission: write
         issue-type: pull-request
         allow-edits: false
-        event-type-suffix: "-command"
+        dispatch-type: workflow
+        event-type-suffix: ""
         commands: gha-run-1
+        static-args: |
+          pull-number=${{ github.event.pull_request.number }}
+          pull-sha=${{ github.event.pull_request.head.sha }}
     - name: Trigger tests 2
       uses: peter-evans/slash-command-dispatch@v2
       with:
@@ -26,5 +30,9 @@ jobs:
         permission: write
         issue-type: pull-request
         allow-edits: false
-        event-type-suffix: "-command"
+        dispatch-type: workflow
+        event-type-suffix: ""
         commands: gha-run-2
+        static-args: |
+          pull-number=${{ github.event.pull_request.number }}
+          pull-sha=${{ github.event.pull_request.head.sha }}
