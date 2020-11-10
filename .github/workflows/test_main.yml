@@ -1,0 +1,41 @@
+name: Test main
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Test main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 5
+          submodules: true
+      - name: Dump test
+        shell: bash
+        run: |
+            sleep 20s
+            exit 0
+  all-successful:
+    # https://github.community/t/is-it-possible-to-require-all-github-actions-tasks-to-pass-without-enumerating-them/117957/4?u=graingert
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 5
+          submodules: false
+      - name: Note that all tests succeeded
+        run: |
+            workflows=("test_1.yml;Test 1"
+                       "test_2.yml;Test 2")
+            for i in "${workflows[@]}"; do
+                id="${i%;*}"
+                name="${i#*;}"
+                python "$GITHUB_WORKSPACE/.ci/get_workflow_status.py" "$id" || exit -1
+            done
