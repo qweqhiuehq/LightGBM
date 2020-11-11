@@ -30,6 +30,7 @@ jobs:
         issue-type: pull-request
         allow-edits: false
         dispatch-type: workflow
+        ref: "refs/pull/${{ steps.pr_details.outputs.pull_number }}/merge"
         event-type-suffix: ""
         commands: gha-run-1
         static-args: |
@@ -44,6 +45,7 @@ jobs:
         issue-type: pull-request
         allow-edits: false
         dispatch-type: workflow
+        ref: "refs/pull/${{ steps.pr_details.outputs.pull_number }}/merge"
         event-type-suffix: ""
         commands: gha-run-2
         static-args: |
