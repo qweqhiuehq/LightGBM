@@ -11,10 +11,11 @@ jobs:
     - name: Get PR details
       id: pr_details
       run: |
-        number="${{ github.event.issue.number }}"
+        url="${{ github.event.pull_request.url }}"
+        number="${url##*/}"
         sha=$(curl -sL \
                 -H "Accept: application/vnd.github.v3+json" \
-                ${{ github.event.pull_request.url }} \
+                 $url \
               | jq '.head.sha')
         echo "::set-output name=pull_number::${number}"
         echo "::set-output name=pull_sha::${sha}"
