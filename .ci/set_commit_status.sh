@@ -42,7 +42,7 @@ data=$(jq -n \
   --arg name "$name" \
   '{"state":$state,"target_url":$url,"context":$name}')
 
-curl \
+curl -sL \
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token $SECRETS_WORKFLOW" \
