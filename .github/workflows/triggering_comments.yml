@@ -31,7 +31,7 @@ jobs:
         event-type-suffix: ""
         commands: gha-run-1
         static-args: |
-          pull-number=${{ ${{ steps.pr_details.outputs.pull_number }} }}
+          pull-number=${{ steps.pr_details.outputs.pull_number }}
           pull-sha=${{ steps.pr_details.outputs.pull_sha }}
     - name: Trigger tests 2
       uses: peter-evans/slash-command-dispatch@v2
