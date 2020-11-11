@@ -49,7 +49,7 @@ jobs:
           pull-sha=${{ steps.pr_details.outputs.pull_sha }}
     - name: Delete run log
       run: |
-        curl \
+        curl -sL \
         -X DELETE \
         -H "Accept: application/vnd.github.v3+json" \
         -H "Authorization: token $SECRETS_WORKFLOW" \
