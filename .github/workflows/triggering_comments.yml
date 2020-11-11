@@ -30,10 +30,10 @@ jobs:
         issue-type: pull-request
         allow-edits: false
         dispatch-type: workflow
-        ref: "refs/pull/${{ steps.pr_details.outputs.pull_number }}/merge"
         event-type-suffix: ""
         commands: gha-run-1
         static-args: |
+          ref="refs/pull/${{ steps.pr_details.outputs.pull_number }}/merge"
           pull-number=${{ steps.pr_details.outputs.pull_number }}
           pull-sha=${{ steps.pr_details.outputs.pull_sha }}
     - name: Trigger tests 2
@@ -45,13 +45,15 @@ jobs:
         issue-type: pull-request
         allow-edits: false
         dispatch-type: workflow
-        ref: "refs/pull/${{ steps.pr_details.outputs.pull_number }}/merge"
         event-type-suffix: ""
         commands: gha-run-2
         static-args: |
+          ref="refs/pull/${{ steps.pr_details.outputs.pull_number }}/merge"
           pull-number=${{ steps.pr_details.outputs.pull_number }}
           pull-sha=${{ steps.pr_details.outputs.pull_sha }}
     - name: Delete run log
+      env:
+        SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
       run: |
         curl -sL \
         -X DELETE \
