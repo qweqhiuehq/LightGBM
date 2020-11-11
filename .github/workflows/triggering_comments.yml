@@ -8,6 +8,8 @@ jobs:
   triggering-tests:
     runs-on: ubuntu-latest
     steps:
+    - name: Test echo
+      run: echo "${{ toJson(github.event) }}"
     - name: Trigger tests 1
       uses: peter-evans/slash-command-dispatch@v2
       with:
@@ -36,3 +38,10 @@ jobs:
         static-args: |
           pull-number=${{ github.event.pull_request.number }}
           pull-sha=${{ github.event.pull_request.head.sha }}
+    - name: Delete run log
+      run: |
+        curl \
+        -X DELETE \
+        -H "Accept: application/vnd.github.v3+json" \
+        -H "Authorization: token $SECRETS_WORKFLOW" \
+        "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}"
