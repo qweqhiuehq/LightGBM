@@ -8,8 +8,16 @@ jobs:
   triggering-tests:
     runs-on: ubuntu-latest
     steps:
-    - name: Test echo
-      run: echo "${{ toJson(github.event) }}"
+    - name: Get PR details
+      id: pr_details
+      run: |
+        number="${{ github.event.issue.number }}"
+        sha=$(curl -sL \
+                -H "Accept: application/vnd.github.v3+json" \
+                ${{ github.event.pull_request.url }} \
+              | jq '.head.sha')
+        echo "::set-output name=pull_number::${number}"
+        echo "::set-output name=pull_sha::${sha}"
     - name: Trigger tests 1
       uses: peter-evans/slash-command-dispatch@v2
       with:
@@ -22,8 +30,8 @@ jobs:
         event-type-suffix: ""
         commands: gha-run-1
         static-args: |
-          pull-number=${{ github.event.pull_request.number }}
-          pull-sha=${{ github.event.pull_request.head.sha }}
+          pull-number=${{ ${{ steps.pr_details.outputs.pull_number }} }}
+          pull-sha=${{ steps.pr_details.outputs.pull_sha }}
     - name: Trigger tests 2
       uses: peter-evans/slash-command-dispatch@v2
       with:
@@ -36,8 +44,8 @@ jobs:
         event-type-suffix: ""
         commands: gha-run-2
         static-args: |
-          pull-number=${{ github.event.pull_request.number }}
-          pull-sha=${{ github.event.pull_request.head.sha }}
+          pull-number=${{ ${{ steps.pr_details.outputs.pull_number }} }}
+          pull-sha=${{ steps.pr_details.outputs.pull_sha }}
     - name: Delete run log
       run: |
         curl \
