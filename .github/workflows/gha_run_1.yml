@@ -18,14 +18,14 @@ jobs:
           fetch-depth: 5
           submodules: true
           repository: StrikerRUS/LightGBM
-          ref: "refs/pull/${{ github.event.client_payload.github.pull_request.number }}/merge"
+          ref: "refs/pull/${{ github.event.client_payload.pr_number }}/merge"
       - name: Send init status
         if: ${{ always() }}
         env:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: |
-          echo "${{ toJson(github.event.client_payload.github.pull_request) }}"
-          $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "pending" "${{ github.event.client_payload.github.pull_request.head.sha }}"
+          echo "${{ github.event.client_payload }}"
+          $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "pending" "${{ github.event.client_payload.pr_sha }}"
       - name: Test
         run: |
             sleep 30s
@@ -34,4 +34,4 @@ jobs:
         if: ${{ always() }}
         env:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
-        run: $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "${{ job.status }}" "${{ github.event.client_payload.github.pull_request.head.sha }}"
+        run: $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "${{ job.status }}" "${{ github.event.client_payload.pr_sha }}"
