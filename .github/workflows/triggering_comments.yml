@@ -11,10 +11,10 @@ jobs:
     - name: Trigger tests 1
       if: github.event.comment.body == '/gha run 1' && contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)
       run: |
-        data=$(jq -n \
+        data=$`jq -n \
           --arg event_type "gha_run_1" \
           --arg github "${{ toJson(github) }}" \
-          '{"event_type":$event_type,"client_payload":{"github":$github}}')
+          '{"event_type":$event_type,"client_payload":{"github":$github}}'`
         echo "$data"
         curl -sL \
         -X POST \
@@ -26,10 +26,10 @@ jobs:
     - name: Trigger tests 2
       if: github.event.comment.body == '/gha run 2' && contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)
       run: |
-        data=$(jq -n \
+        data=$`jq -n \
           --arg event_type "gha_run_2" \
           --arg github "${{ toJson(github) }}" \
-          '{"event_type":$event_type,"client_payload":{"github":$github}}')
+          '{"event_type":$event_type,"client_payload":{"github":$github}}'`
         echo "$data"
         curl -sL \
         -X POST \
