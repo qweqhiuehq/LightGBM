@@ -1,62 +1,39 @@
 name: Triggering comments
 
 on:
-  issue_comment:
+  pull_request_review_comment:
     types: [created]
 
 jobs:
   triggering-tests:
     runs-on: ubuntu-latest
     steps:
-    - name: Get PR details
-      id: pr_details
-      run: |
-        url="${{ github.event.issue.pull_request.url }}"
-        number="${url##*/}"
-        sha=$(curl -sL \
-                -H "Accept: application/vnd.github.v3+json" \
-                 $url \
-              | jq '.head.sha')
-        echo $number
-        echo $sha
-        echo "::set-output name=pull_number::${number}"
-        echo "::set-output name=pull_sha::${sha}"
     - name: Trigger tests 1
-      uses: peter-evans/slash-command-dispatch@v2
-      with:
-        token: ${{ secrets.WORKFLOW }}
-        reaction-token: ${{ github.token }}
-        permission: write
-        issue-type: pull-request
-        allow-edits: false
-        dispatch-type: workflow
-        event-type-suffix: ""
-        commands: gha-run-1
-        static-args: |
-          ref="test"
-          pull-number=${{ steps.pr_details.outputs.pull_number }}
-          pull-sha=${{ steps.pr_details.outputs.pull_sha }}
-    - name: Trigger tests 2
-      uses: peter-evans/slash-command-dispatch@v2
-      with:
-        token: ${{ secrets.WORKFLOW }}
-        reaction-token: ${{ github.token }}
-        permission: write
-        issue-type: pull-request
-        allow-edits: false
-        dispatch-type: workflow
-        event-type-suffix: ""
-        commands: gha-run-2
-        static-args: |
-          ref="test"
-          pull-number=${{ steps.pr_details.outputs.pull_number }}
-          pull-sha=${{ steps.pr_details.outputs.pull_sha }}
-    - name: Delete run log
-      env:
-        SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
+      if: github.event.comment.body == '/gha run 1' && contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)
       run: |
+        data=$(jq -n \
+          --arg event_type "gha_run_1" \
+          --arg github "${{ toJson(github) }}}" \
+          '{"event_type":$event_type,"client_payload":{"github":$github}}')
+        echo "$data"
         curl -sL \
-        -X DELETE \
+        -X POST \
         -H "Accept: application/vnd.github.v3+json" \
-        -H "Authorization: token $SECRETS_WORKFLOW" \
-        "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}"
+        -H "Authorization: token ${{ secrets.WORKFLOW }}" \
+        -d "$data" \
+        "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/dispatches"
+
+    - name: Trigger tests 2
+      if: github.event.comment.body == '/gha run 2' && contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)
+      run: |
+        data=$(jq -n \
+          --arg event_type "gha_run_2" \
+          --arg github "${{ toJson(github) }}}" \
+          '{"event_type":$event_type,"client_payload":{"github":$github}}')
+        echo "$data"
+        curl -sL \
+        -X POST \
+        -H "Accept: application/vnd.github.v3+json" \
+        -H "Authorization: token ${{ secrets.WORKFLOW }}" \
+        -d "$data" \
+        "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/dispatches"
