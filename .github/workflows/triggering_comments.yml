@@ -13,7 +13,7 @@ jobs:
       run: |
         data=$(jq -n \
           --arg event_type "gha_run_1" \
-          --arg github "${{ toJson(github) }}}" \
+          --arg github "${{ toJson(github) }}" \
           '{"event_type":$event_type,"client_payload":{"github":$github}}')
         echo "$data"
         curl -sL \
@@ -28,7 +28,7 @@ jobs:
       run: |
         data=$(jq -n \
           --arg event_type "gha_run_2" \
-          --arg github "${{ toJson(github) }}}" \
+          --arg github "${{ toJson(github) }}" \
           '{"event_type":$event_type,"client_payload":{"github":$github}}')
         echo "$data"
         curl -sL \
