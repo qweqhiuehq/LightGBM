@@ -16,7 +16,6 @@ jobs:
           --arg event_type "gha_run_1" \
           --arg github "$test" \
           '{"event_type":$event_type,"client_payload":{"github":$github}}')
-        echo "$data"
         curl -sL \
         -X POST \
         -H "Accept: application/vnd.github.v3+json" \
@@ -31,7 +30,6 @@ jobs:
           --arg event_type "gha_run_2" \
           --arg github "${{ toJson(github) }}" \
           '{"event_type":$event_type,"client_payload":{"github":$github}}')
-        echo "$data"
         curl -sL \
         -X POST \
         -H "Accept: application/vnd.github.v3+json" \
