@@ -11,7 +11,7 @@ jobs:
     - name: Trigger tests 1
       if: github.event.comment.body == '/gha run 1' && contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)
       run: |
-        test="${{ toJson(github) }}"
+        test=`cat $GITHUB_EVENT_PATH`
         data=$(jq -n \
           --arg event_type "gha_run_1" \
           --arg github "$test" \
