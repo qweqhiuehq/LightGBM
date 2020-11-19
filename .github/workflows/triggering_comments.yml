@@ -11,12 +11,11 @@ jobs:
     - name: Trigger tests 1
       if: github.event.comment.body == '/gha run 1' && contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)
       run: |
-        test=`cat $GITHUB_EVENT_PATH`
         data=$(jq -n \
           --arg event_type "gha_run_1" \
-          --arg github "$test" \
-          '{"event_type":$event_type,"client_payload":{"github":$github}}')
-        echo "$data"
+          --arg pr_number "${{ github.event.pull_request.number }}" \
+          --arg pr_sha "${{ github.event.pull_request.head.sha }}" \
+          '{"event_type":$event_type,"client_payload":{"pr_number":$pr_number,"pr_sha":$pr_sha}}')
         curl -sL \
         -X POST \
         -H "Accept: application/vnd.github.v3+json" \
@@ -29,8 +28,9 @@ jobs:
       run: |
         data=$(jq -n \
           --arg event_type "gha_run_2" \
-          --arg github "${{ toJson(github) }}" \
-          '{"event_type":$event_type,"client_payload":{"github":$github}}')
+          --arg pr_number "${{ github.event.pull_request.number }}" \
+          --arg pr_sha "${{ github.event.pull_request.head.sha }}" \
+          '{"event_type":$event_type,"client_payload":{"pr_number":$pr_number,"pr_sha":$pr_sha}}')
         curl -sL \
         -X POST \
         -H "Accept: application/vnd.github.v3+json" \
