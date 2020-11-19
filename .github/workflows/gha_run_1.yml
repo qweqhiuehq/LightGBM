@@ -24,7 +24,7 @@ jobs:
         env:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: |
-          echo "${{ toJson(github.event.client_payload) }}"
+          echo "${{ toJson(github.event.client_payload.github) }}"
           $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "pending" "${{ github.event.client_payload.github.pull_request.head.sha }}"
       - name: Test
         run: |
