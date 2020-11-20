@@ -32,4 +32,4 @@ jobs:
         if: ${{ always() }}
         env:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
-        run: $GITHUB_WORKSPACE/.ci/set_commit_status.sh "Test main / all-successful (pull_request)" "${{ job.status }}" "${{ github.event.client_payload.pr_sha }}"
+        run: $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "${{ job.status }}" "${{ github.event.client_payload.pr_sha }}"
