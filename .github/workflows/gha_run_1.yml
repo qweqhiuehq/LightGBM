@@ -33,3 +33,8 @@ jobs:
         env:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "${{ job.status }}" "${{ github.event.client_payload.pr_sha }}"
+      - name: Rerun main workflow
+        if: ${{ success() }}
+        env:
+          SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
+        run: $GITHUB_WORKSPACE/.ci/rerun_workflow.py "test_main.yml" "${{ github.event.client_payload.pr_number }}" "${{ github.event.client_payload.pr_branch }}" || true
