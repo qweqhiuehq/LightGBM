@@ -15,7 +15,8 @@ jobs:
           --arg event_type "gha_run_1" \
           --arg pr_number "${{ github.event.pull_request.number }}" \
           --arg pr_sha "${{ github.event.pull_request.head.sha }}" \
-          '{"event_type":$event_type,"client_payload":{"pr_number":$pr_number,"pr_sha":$pr_sha}}')
+          --arg pr_branch "${{ github.head_ref }}" \
+          '{"event_type":$event_type,"client_payload":{"pr_number":$pr_number,"pr_sha":$pr_sha,"pr_branch":$pr_branch}}')
         curl -sL \
         -X POST \
         -H "Accept: application/vnd.github.v3+json" \
@@ -30,7 +31,8 @@ jobs:
           --arg event_type "gha_run_2" \
           --arg pr_number "${{ github.event.pull_request.number }}" \
           --arg pr_sha "${{ github.event.pull_request.head.sha }}" \
-          '{"event_type":$event_type,"client_payload":{"pr_number":$pr_number,"pr_sha":$pr_sha}}')
+          --arg pr_branch "${{ github.head_ref }}" \
+          '{"event_type":$event_type,"client_payload":{"pr_number":$pr_number,"pr_sha":$pr_sha,"pr_branch":$pr_branch}}')
         curl -sL \
         -X POST \
         -H "Accept: application/vnd.github.v3+json" \
