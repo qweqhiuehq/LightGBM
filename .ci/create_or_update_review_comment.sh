@@ -38,7 +38,7 @@ if [[ $mode == "create" ]]; then
     "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments" | \
     jq --raw-output --arg comment_id $comment_id '.[] | select(.id|tostring == $comment_id) | if has("in_reply_to_id") then .in_reply_to_id else .id end')
   data=$(jq -n \
-    --argjson body "$body" \
+    --argjson body "\"$body\"" \
     '{"body":$body}')
   curl -sL \
     -X POST \
