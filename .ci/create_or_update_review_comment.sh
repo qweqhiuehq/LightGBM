@@ -35,7 +35,7 @@ if [[ $mode == "create" ]]; then
   comment_id=$(curl -sL \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $SECRETS_WORKFLOW" \
-    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments") | \
+    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments" | \
     jq --raw-output --arg comment_id $comment_id '.[] | select(.id|tostring == $comment_id) | if has("in_reply_to_id") then .in_reply_to_id else .id end')
   data=$(jq -n \
     --arg body "$body" \
