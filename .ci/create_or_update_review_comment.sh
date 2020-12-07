@@ -32,6 +32,8 @@ mode=$3
 body=$4
 
 if [[ $mode == "create" ]]; then
+  echo "$pr_number"
+  echo "$comment_id"
   comment_id=$(curl -sL \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $SECRETS_WORKFLOW" \
