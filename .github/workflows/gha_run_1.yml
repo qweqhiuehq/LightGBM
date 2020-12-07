@@ -29,7 +29,7 @@ jobs:
             "${{ github.event.client_payload.pr_number }}" \
             "${{ github.event.client_payload.comment_number }}" \
             "create" \
-            "Workflow **${{ github.workflow }}** has been triggered! :rocket\n${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            "Workflow **${{ github.workflow }}** has been triggered! :rocket\r\n${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
       - name: Test
         run: |
             sleep 30s
