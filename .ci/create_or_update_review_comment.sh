@@ -36,7 +36,7 @@ if [[ $mode == "create" ]]; then
       -H "Accept: application/vnd.github.v3+json" \
       -H "Authorization: token $SECRETS_WORKFLOW" \
       "${GITHUB_SERVER_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments" | \
-    jq --raw-output --arg comment_id "$comment_id" '.[] | select(.id|tostring == "$comment_id") | if has("in_reply_to_id") then .in_reply_to_id else .id end')
+    jq --raw-output --arg comment_id $comment_id '.[] | select(.id|tostring == $comment_id) | if has("in_reply_to_id") then .in_reply_to_id else .id end')
   data=$(jq -n \
     --arg body "$body" \
     '{"body":$body}')
