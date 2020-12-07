@@ -47,6 +47,7 @@ if [[ $mode == "create" ]]; then
     -d "$data" \
     "${GITHUB_SERVER_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments/$comment_id/replies"
 elif [[ $mode == "append" ]]; then
+  exit -1
 else
   echo "Unknown value of <MODE> argument: $mode. Can be 'create' or 'append'"
   exit -1
