@@ -32,23 +32,22 @@ mode=$3
 body=$4
 
 if [[ $mode == "create" ]]; then
-  echo "Usage: $0 <PR_NUMBER> <COMMENT_ID> <MODE> <BODY>"
-  exit -1
+  comment_id=$(curl -sL \
+      -H "Accept: application/vnd.github.v3+json" \
+      -H "Authorization: token $SECRETS_WORKFLOW" \
+      "${GITHUB_SERVER_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments" | \
+    jq --raw-output .[] | select(.id|tostring == "$comment_id") | if has("in_reply_to_id") then .in_reply_to_id else .id end)
+  data=$(jq -n \
+    --arg body "$body" \
+    '{"body":$body}')
+  curl -sL \
+    -X POST \
+    -H "Accept: application/vnd.github.v3+json" \
+    -H "Authorization: token $SECRETS_WORKFLOW" \
+    -d "$data" \
+    "${GITHUB_SERVER_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments/$comment_id/replies"
 elif [[ $mode == "append" ]]; then
 else
   echo "Unknown value of <MODE> argument: $mode. Can be 'create' or 'append'"
   exit -1
 fi
-
-data=$(jq -n \
-  --arg state $status \
-  --arg url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
-  --arg name "$name" \
-  '{"state":$state,"target_url":$url,"context":$name}')
-
-curl -sL \
-  -X POST \
-  -H "Accept: application/vnd.github.v3+json" \
-  -H "Authorization: token $SECRETS_WORKFLOW" \
-  -d "$data" \
-  "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/statuses/$sha"
