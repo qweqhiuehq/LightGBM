@@ -25,7 +25,11 @@ jobs:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: |
           $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "pending" "${{ github.event.client_payload.pr_sha }}"
-          $GITHUB_WORKSPACE/.ci/create_or_update_review_comment.sh "${{ github.event.client_payload.pr_number }}" "${{ github.event.client_payload.comment_number }}" "create" "test body!!!"
+          $GITHUB_WORKSPACE/.ci/create_or_update_review_comment.sh \
+            "${{ github.event.client_payload.pr_number }}" \
+            "${{ github.event.client_payload.comment_number }}" \
+            "create" \
+            "Workflow **${{ github.workflow }}** has been triggered! :rocket\n${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
       - name: Test
         run: |
             sleep 30s
