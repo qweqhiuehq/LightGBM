@@ -54,6 +54,7 @@ elif [[ $mode == "append" ]]; then
     -H "Authorization: token $SECRETS_WORKFLOW" \
     "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/comments/$comment_id" | \
     jq '.body')
+  body=${body/failure/failure ❌}
   body=${body/error/failure ❌}
   body=${body/cancelled/failure ❌}
   body=${body/timed_out/failure ❌}
