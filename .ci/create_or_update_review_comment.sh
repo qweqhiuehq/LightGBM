@@ -55,7 +55,7 @@ elif [[ $mode == "append" ]]; then
     "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/comments/$comment_id" | \
     jq --raw-output '.body')
   data=$(jq -n \
-    --argjson body "\"$old_comment_body\"" \
+    --arg body "\"$old_comment_body\r\n$body\"" \
     '{"body":$body}')
   curl -sL \
     -X PATCH \
