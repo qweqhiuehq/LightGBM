@@ -45,7 +45,7 @@ jobs:
             "${{ github.event.client_payload.pr_number }}" \
             "${{ steps.init_status.outputs.reply_id }}" \
             "append" \
-            "Status - ${{ job.status }}."
+            "Status: ${{ job.status }}."
       - name: Rerun main workflow
         if: ${{ success() }}
         env:
