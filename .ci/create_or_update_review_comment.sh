@@ -54,7 +54,7 @@ elif [[ $mode == "append" ]]; then
     -H "Authorization: token $SECRETS_WORKFLOW" \
     "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/comments/$comment_id" | \
     jq --raw-output '.body')
-  data=$(jq -n --raw-input \
+  data=$(jq -n \
     --arg body "$old_comment_body\r\n$body" \
     '{"body":$body}')
   curl -sL \
