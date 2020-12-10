@@ -29,6 +29,7 @@ fi
 name=$1
 
 status=$2
+status=${status/error/failure}
 status=${status/cancelled/failure}
 status=${status/timed_out/failure}
 status=${status/in_progress/pending}
