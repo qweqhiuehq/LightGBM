@@ -47,7 +47,20 @@ if [[ $mode == "create" ]]; then
     -d "$data" \
     "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments/$comment_id/replies"
 elif [[ $mode == "append" ]]; then
-  exit -1
+  old_comment_body=$(curl -sL \
+    -H "Accept: application/vnd.github.v3+json" \
+    -H "Authorization: token $SECRETS_WORKFLOW" \
+    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/comments/$comment_id" | \
+    jq --raw-output '.body')
+  data=$(jq -n \
+    --argjson body "\"$old_comment_body\r\n$body\"" \
+    '{"body":$body}')
+  curl -sL \
+    -X PATCH \
+    -H "Accept: application/vnd.github.v3+json" \
+    -H "Authorization: token $SECRETS_WORKFLOW" \
+    -d "$data" \
+    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/comments/$comment_id"
 else
   echo "Unknown value of <MODE> argument: $mode. Can be 'create' or 'append'"
   exit -1
