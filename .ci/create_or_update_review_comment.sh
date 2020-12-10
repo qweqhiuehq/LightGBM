@@ -53,7 +53,8 @@ elif [[ $mode == "append" ]]; then
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $SECRETS_WORKFLOW" \
     "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/comments/$comment_id" | \
-    jq --raw-output '.body')
+    jq '.body')
+  echo "$old_comment_body"
   data=$(jq -n \
     --argjson body "\"$old_comment_body\r\n$body\"" \
     '{"body":$body}')
