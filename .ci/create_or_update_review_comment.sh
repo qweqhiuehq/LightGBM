@@ -40,12 +40,14 @@ if [[ $mode == "create" ]]; then
   data=$(jq -n \
     --argjson body "\"$body\"" \
     '{"body":$body}')
-  curl -sL \
+  reply_id=$(curl -sL \
     -X POST \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $SECRETS_WORKFLOW" \
     -d "$data" \
-    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments/$comment_id/replies"
+    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments/$comment_id/replies" | \
+    jq --raw-output '.id')
+  echo "::set-output name=reply_id::$reply_id"
 elif [[ $mode == "append" ]]; then
   old_comment_body=$(curl -sL \
     -H "Accept: application/vnd.github.v3+json" \
