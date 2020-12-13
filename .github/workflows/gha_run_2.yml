@@ -34,7 +34,7 @@ jobs:
       - name: Test
         run: |
             sleep 30s
-            exit 0
+            $GITHUB_WORKSPACE/.ci/test_2.sh
       - name: Send final status
         if: ${{ always() }}
         env:
