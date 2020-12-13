@@ -1,3 +1,4 @@
+# coding: utf-8
 import json
 from os import environ
 from sys import argv, exit
