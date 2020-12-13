@@ -32,10 +32,8 @@ jobs:
           submodules: false
       - name: Note that all tests succeeded
         run: |
-            workflows=("test_1.yml;Test 1"
-                       "test_2.yml;Test 2")
+            workflows=("Test 1"
+                       "Test 2")
             for i in "${workflows[@]}"; do
-                id="${i%;*}"
-                name="${i#*;}"
-                python "$GITHUB_WORKSPACE/.ci/get_workflow_status.py" "$id" || exit -1
+                python "$GITHUB_WORKSPACE/.ci/get_workflow_status.py" "$i" || exit -1
             done
