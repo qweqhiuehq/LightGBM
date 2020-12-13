@@ -36,7 +36,7 @@ def get_status(runs):
             if "Status: failure ❌." in body:
                 status = 'fail'
                 break
-            if "Status: success ✔️.":
+            if "Status: success ✔️." in body:
                 status = 'ok'
                 break
         else:  # in progress
