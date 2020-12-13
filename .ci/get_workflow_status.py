@@ -31,12 +31,12 @@ def get_status(runs):
     for run in runs:
         body = run['body']
         if "Status: " in body:
-            if "Status: skipped." in body:
+            if "Status: skipped" in body:
                 continue
-            if "Status: failure ❌." in body:
+            if "Status: failure" in body:
                 status = 'fail'
                 break
-            if "Status: success ✔️." in body:
+            if "Status: success" in body:
                 status = 'ok'
                 break
         else:  # in progress
