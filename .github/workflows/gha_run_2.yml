@@ -20,6 +20,7 @@ jobs:
           repository: StrikerRUS/LightGBM
           ref: "refs/pull/${{ github.event.client_payload.pr_number }}/merge"
       - name: Send init status
+        id: init_status
         if: ${{ always() }}
         env:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
