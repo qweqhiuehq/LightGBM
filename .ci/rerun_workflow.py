@@ -8,8 +8,9 @@ except ImportError:
 
 
 def get_runs(pr_number, pr_branch, workflow_id):
-    req = request.Request(url="{}/repos/microsoft/LightGBM/actions/workflows/{}/runs".format(environ.get("GITHUB_API_URL"),
-                                                                                             workflow_id),
+    req = request.Request(url="{}/repos/{}/actions/workflows/{}/runs".format(environ.get("GITHUB_API_URL"),
+                                                                             environ.get("GITHUB_REPOSITORY"),
+                                                                             workflow_id),
                           headers={"accept": "application/vnd.github.v3+json"})
     url = request.urlopen(req)
     data = json.loads(url.read().decode('utf-8'))
@@ -24,8 +25,9 @@ def get_runs(pr_number, pr_branch, workflow_id):
 
 def rerun_workflow(runs):
     if runs:
-        req = request.Request(url="{}/repos/microsoft/LightGBM/actions/runs/{}/rerun".format(environ.get("GITHUB_API_URL"),
-                                                                                             runs[0]["id"]),
+        req = request.Request(url="{}/repos/{}/actions/runs/{}/rerun".format(environ.get("GITHUB_API_URL"),
+                                                                             environ.get("GITHUB_REPOSITORY"),
+                                                                             runs[0]["id"]),
                               headers={"accept": "application/vnd.github.v3+json",
                                        "authorization": "Token {}".format(environ.get("SECRETS_WORKFLOW"))},
                               method="POST")
