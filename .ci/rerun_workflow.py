@@ -1,6 +1,6 @@
 import json
 from os import environ
-from sys import exit
+from sys import argv, exit
 try:
     from urllib import request
 except ImportError:
