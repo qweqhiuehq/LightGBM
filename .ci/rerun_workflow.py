@@ -12,7 +12,6 @@ def get_runs(pr_number, pr_branch, workflow_id):
                                                                              environ.get("GITHUB_REPOSITORY"),
                                                                              workflow_id),
                           headers={"accept": "application/vnd.github.v3+json"})
-    print(req.full_url)
     url = request.urlopen(req)
     data = json.loads(url.read().decode('utf-8'))
     url.close()
@@ -30,7 +29,8 @@ def rerun_workflow(runs):
                                                                              environ.get("GITHUB_REPOSITORY"),
                                                                              runs[0]["id"]),
                               headers={"accept": "application/vnd.github.v3+json",
-                                       "authorization": "Token {}".format(environ.get("SECRETS_WORKFLOW"))})
+                                       "authorization": "Token {}".format(environ.get("SECRETS_WORKFLOW"))},
+                              data={})
         try:
             res = request.urlopen(req)
             res.close()
