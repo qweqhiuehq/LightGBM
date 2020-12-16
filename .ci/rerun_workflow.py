@@ -29,8 +29,7 @@ def rerun_workflow(runs):
                                                                              environ.get("GITHUB_REPOSITORY"),
                                                                              runs[0]["id"]),
                               headers={"accept": "application/vnd.github.v3+json",
-                                       "authorization": "Token {}".format(environ.get("SECRETS_WORKFLOW"))},
-                              method="POST")
+                                       "authorization": "Token {}".format(environ.get("SECRETS_WORKFLOW"))})
         try:
             res = request.urlopen(req)
             res.close()
