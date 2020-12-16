@@ -11,8 +11,9 @@ def get_runs(pr_number, pr_branch, workflow_id):
     req = request.Request(url="{}/repos/microsoft/LightGBM/actions/workflows/{}/runs".format(environ.get("GITHUB_API_URL"),
                                                                                              workflow_id),
                           headers={"accept": "application/vnd.github.v3+json"})
-    with request.urlopen(req) as url:
-        data = json.loads(url.read().decode())
+    url = request.urlopen(req)
+    data = json.loads(url.read().decode('utf-8'))
+    url.close()
     pr_runs = [i for i in data['workflow_runs']
                if i['event'] == 'pull_request' and
                (i.get('pull_requests') and
@@ -30,6 +31,7 @@ def rerun_workflow(runs):
                               method="POST")
         try:
             res = request.urlopen(req)
+            res.close()
             if res.getcode() != 201:
                 raise Exception("Cannot rerun workflow. HTTP status code: {}.".format(res.getcode()))
         except BaseException as e:
