@@ -12,6 +12,7 @@ def get_runs(pr_number, pr_branch, workflow_id):
                                                                              environ.get("GITHUB_REPOSITORY"),
                                                                              workflow_id),
                           headers={"accept": "application/vnd.github.v3+json"})
+    print(req.full_url)
     url = request.urlopen(req)
     data = json.loads(url.read().decode('utf-8'))
     url.close()
