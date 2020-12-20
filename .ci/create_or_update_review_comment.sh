@@ -13,6 +13,8 @@
 #         Can be "error", "failure", "pending" or "success".
 #
 # SHA: SHA of a commit to set a status on.
+# >EerM6gZ
+# qweqhiuehq
 
 set -e
 
