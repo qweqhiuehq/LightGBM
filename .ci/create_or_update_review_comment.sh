@@ -37,7 +37,7 @@ if [[ $mode == "create" ]]; then
   comment_id=$(curl -sL \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $SECRETS_WORKFLOW" \
-    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments" | \
+    "${GITHUB_API_URL}/repos/StrikerRUS/LightGBM/pulls/$pr_number/comments" | \
     jq --raw-output --arg comment_id $comment_id '.[] | select(.id|tostring == $comment_id) | if has("in_reply_to_id") then .in_reply_to_id else .id end')
   data=$(jq -n \
     --argjson body "\"$body\"" \
@@ -47,14 +47,14 @@ if [[ $mode == "create" ]]; then
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $SECRETS_WORKFLOW" \
     -d "$data" \
-    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/$pr_number/comments/$comment_id/replies" | \
+    "${GITHUB_API_URL}/repos/StrikerRUS/LightGBM/pulls/$pr_number/comments/$comment_id/replies" | \
     jq --raw-output '.id')
   echo "::set-output name=reply_id::$reply_id"
 elif [[ $mode == "append" ]]; then
   old_comment_body=$(curl -sL \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $SECRETS_WORKFLOW" \
-    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/comments/$comment_id" | \
+    "${GITHUB_API_URL}/repos/StrikerRUS/LightGBM/pulls/comments/$comment_id" | \
     jq '.body')
   body=${body/failure/failure ❌}
   body=${body/error/failure ❌}
@@ -69,7 +69,7 @@ elif [[ $mode == "append" ]]; then
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $SECRETS_WORKFLOW" \
     -d "$data" \
-    "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/pulls/comments/$comment_id"
+    "${GITHUB_API_URL}/repos/StrikerRUS/LightGBM/pulls/comments/$comment_id"
 else
   echo "Unknown value of <MODE> argument: $mode. Can be 'create' or 'append'"
   exit -1
