@@ -1,7 +1,7 @@
 name: Triggering comments
 
 on:
-  pull_request_review_comment:
+  issue_comment:
     types: [created]
 
 jobs:
@@ -30,10 +30,10 @@ jobs:
       run: |
         data=$(jq -n \
           --arg event_type "gha_run_2" \
-          --arg pr_number "${{ github.event.pull_request.number }}" \
-          --arg pr_sha "${{ github.event.pull_request.head.sha }}" \
-          --arg pr_branch "${{ github.event.pull_request.head.ref }}" \
-          --arg comment_number "${{ github.event.comment.id }}" \
+          --arg pr_number "75" \
+          --arg pr_sha "766f02bd89f68ee03b28eb874e23250eb67aabf0" \
+          --arg pr_branch "qweqhiuehq-patch-1" \
+          --arg comment_number "67565767" \
           '{"event_type":$event_type,"client_payload":{"pr_number":$pr_number,"pr_sha":$pr_sha,"pr_branch":$pr_branch,"comment_number":$comment_number}}')
         curl -sL \
         -X POST \
