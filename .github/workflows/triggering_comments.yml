@@ -23,7 +23,7 @@ jobs:
         -H "Accept: application/vnd.github.v3+json" \
         -H "Authorization: token ${{ secrets.WORKFLOW }}" \
         -d "$data" \
-        "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/dispatches"
+        "${GITHUB_API_URL}/repos/StrikerRUS/LightGBM/dispatches"
 
     - name: Trigger tests 2
       if: github.event.comment.body == '/gha run 2' && contains('OWNER,MEMBER,COLLABORATOR', github.event.comment.author_association)
@@ -40,4 +40,4 @@ jobs:
         -H "Accept: application/vnd.github.v3+json" \
         -H "Authorization: token ${{ secrets.WORKFLOW }}" \
         -d "$data" \
-        "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/dispatches"
+        "${GITHUB_API_URL}/repos/StrikerRUS/LightGBM/dispatches"
