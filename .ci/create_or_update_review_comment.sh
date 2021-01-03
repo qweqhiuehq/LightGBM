@@ -3,7 +3,7 @@
 # [description]
 #     Create or update reply with a given body to the given original review comment.
 #
-# [usage]
+# [usage
 #     set_commit_status.sh <PR_NUMBER> <COMMENT_ID> <MODE> <BODY>
 #
 # NAME: Name of status.
