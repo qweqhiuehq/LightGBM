@@ -26,10 +26,9 @@ jobs:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: |
           $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "pending" "${{ github.event.client_payload.pr_sha }}"
-          $GITHUB_WORKSPACE/.ci/create_or_update_review_comment.sh \
+          $GITHUB_WORKSPACE/.ci/append_comment.sh \
             "${{ github.event.client_payload.pr_number }}" \
             "${{ github.event.client_payload.comment_number }}" \
-            "create" \
             "Workflow **${{ github.workflow }}** has been triggered! 🚀\r\n${GITHUB_SERVER_URL}/StrikerRUS/LightGBM/actions/runs/${GITHUB_RUN_ID}"
       - name: Test
         run: |
@@ -41,10 +40,9 @@ jobs:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: |
           $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "${{ job.status }}" "${{ github.event.client_payload.pr_sha }}"
-          $GITHUB_WORKSPACE/.ci/create_or_update_review_comment.sh \
+          $GITHUB_WORKSPACE/.ci/append_comment.sh \
             "${{ github.event.client_payload.pr_number }}" \
-            "${{ steps.init_status.outputs.reply_id }}" \
-            "append" \
+            "${{ github.event.client_payload.comment_number }}" \
             "Status: ${{ job.status }}."
       - name: Rerun main workflow
         if: ${{ success() }}
