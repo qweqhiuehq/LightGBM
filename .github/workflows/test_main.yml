@@ -31,6 +31,8 @@ jobs:
           fetch-depth: 5
           submodules: false
       - name: Note that all tests succeeded
+        env:
+          SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: |
             all_success="yes"
             workflows=("Test 1"
