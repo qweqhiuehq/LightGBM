@@ -43,7 +43,7 @@ body=${body/cancelled/failure ❌}
 body=${body/timed_out/failure ❌}
 body=${body/success/success ✔️}
 data=$(jq -n \
-  --argjson body "${old_comment_body%?}\r\n$body\"" \
+  --argjson body "${old_comment_body%?}\r\n\r\n$body\"" \
   '{"body":$body}')
 curl -sL \
   -X PATCH \
