@@ -21,7 +21,8 @@ def get_runs(workflow_name):
         url.close()
         pr_runs = [i for i in data
                    if i['user']['id'] == 25141164
-                   and i['body'].startswith('Workflow **{}** has been triggered!'.format(workflow_name))]
+                   and i['body'].startswith('/gha run')
+                   and 'Workflow **{}** has been triggered!'.format(workflow_name) in i['body']]
     return pr_runs
 
 
