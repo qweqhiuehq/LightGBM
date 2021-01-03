@@ -34,7 +34,7 @@ def get_status(runs):
             if "Status: skipped" in body:
                 continue
             if "Status: failure" in body:
-                status = 'fail'
+                status = 'failure'
                 break
             if "Status: success" in body:
                 status = 'success'
@@ -52,5 +52,5 @@ if __name__ == "__main__":
         if status != 'rerun':
             break
         sleep(60)
-    if status == 'fail':
+    if status == 'failure':
         exit(1)
