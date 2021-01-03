@@ -52,5 +52,6 @@ if __name__ == "__main__":
         if status != 'rerun':
             break
         sleep(60)
+    print(status)
     if status == 'failure':
         exit(1)
