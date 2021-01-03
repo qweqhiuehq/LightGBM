@@ -37,7 +37,7 @@ jobs:
                        "Test 2")
             for i in "${workflows[@]}"; do
                 status=$(python "$GITHUB_WORKSPACE/.ci/get_workflow_status.py" "$i") || all_success="no"
-                send status
+                $GITHUB_WORKSPACE/.ci/set_commit_status.sh "$i" "$status" "${{ github.event.pull_request.head.sha }}"
             done
             if [[ $check_succeeded == "no" ]]; then
                 exit -1
