@@ -27,7 +27,7 @@ def get_runs(workflow_name):
 
 
 def get_status(runs):
-    status = 'ok'
+    status = 'success'
     for run in runs:
         body = run['body']
         if "Status: " in body:
@@ -37,7 +37,7 @@ def get_status(runs):
                 status = 'fail'
                 break
             if "Status: success" in body:
-                status = 'ok'
+                status = 'success'
                 break
         else:  # in progress
             status = 'rerun'
