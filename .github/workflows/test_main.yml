@@ -32,8 +32,13 @@ jobs:
           submodules: false
       - name: Note that all tests succeeded
         run: |
+            all_success="yes"
             workflows=("Test 1"
                        "Test 2")
             for i in "${workflows[@]}"; do
-                python "$GITHUB_WORKSPACE/.ci/get_workflow_status.py" "$i" || exit -1
+                status=$(python "$GITHUB_WORKSPACE/.ci/get_workflow_status.py" "$i") || all_success="no"
+                send status
             done
+            if [[ $check_succeeded == "no" ]]; then
+                exit -1
+            fi
