@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # [description]
-#     Set a status with a given name to the latest commit in a current PR git branch.
+#     Set a status with a given name to the specified commit.
 #
 # [usage]
 #     set_commit_status.sh <NAME> <STATUS> <SHA>
