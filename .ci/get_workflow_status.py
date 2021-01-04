@@ -20,7 +20,7 @@ def get_runs(workflow_name):
         data = json.loads(url.read().decode('utf-8'))
         url.close()
         pr_runs = [i for i in data
-                   if i['user']['id'] == 25141164
+                   if i['author_association'].lower() in {'owner', 'member', 'collaborator'}
                    and i['body'].startswith('/gha run')
                    and 'Workflow **{}** has been triggered!'.format(workflow_name) in i['body']]
     return pr_runs
