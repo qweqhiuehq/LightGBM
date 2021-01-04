@@ -1,10 +1,10 @@
 #!/bin/bash
 #
 # [description]
-#     Create or update reply with a given body to the given original review comment.
+#     Update comment appending a given body to the specified original comment.
 #
 # [usage]
-#     set_commit_status.sh <PR_NUMBER> <COMMENT_ID> <MODE> <BODY>
+#     append_comment.sh <COMMENT_ID> <BODY>
 #
 # NAME: Name of status.
 #       Status with existing name overwrites a previous one.
