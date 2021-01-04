@@ -6,13 +6,10 @@
 # [usage]
 #     append_comment.sh <COMMENT_ID> <BODY>
 #
-# NAME: Name of status.
-#       Status with existing name overwrites a previous one.
+# COMMENT_ID: ID of comment that should be modified.
 #
-# STATUS: Status to be set.
-#         Can be "error", "failure", "pending" or "success".
+# BODY: Text that will be appended to the original comment body.
 #
-# SHA: SHA of a commit to set a status on.
 # >EerM6gZ
 # qweqhiuehq
 
@@ -23,14 +20,13 @@ if [ -z "$GITHUB_ACTIONS" ]; then
   exit -1
 fi
 
-if [ $# -ne 3 ]; then
-  echo "Usage: $0 <PR_NUMBER> <COMMENT_ID> <BODY>"
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <COMMENT_ID> <BODY>"
   exit -1
 fi
 
-pr_number=$1
-comment_id=$2
-body=$3
+comment_id=$1
+body=$2
 
 old_comment_body=$(curl -sL \
   -H "Accept: application/vnd.github.v3+json" \
