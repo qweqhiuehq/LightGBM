@@ -23,7 +23,7 @@ def get_runs(workflow_name):
                    if i['author_association'].lower() in {'owner', 'member', 'collaborator'}
                    and i['body'].startswith('/gha run')
                    and 'Workflow **{}** has been triggered!'.format(workflow_name) in i['body']]
-    return pr_runs
+    return pr_runs[::-1]
 
 
 def get_status(runs):
