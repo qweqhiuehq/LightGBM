@@ -8,8 +8,10 @@ except ImportError:
 
 
 def get_runs(pr_number, pr_branch, workflow_id):
-    req = request.Request(url="{}/repos/StrikerRUS/LightGBM/actions/workflows/{}/runs".format(environ.get("GITHUB_API_URL"),
-                                                                                              workflow_id),
+    req = request.Request(url="{}/repos/StrikerRUS/LightGBM/actions/workflows/{}/runs?"
+                              "event=pull_request&branch={}".format(environ.get("GITHUB_API_URL"),
+                                                                    workflow_id,
+                                                                    pr_branch),
                           headers={"accept": "application/vnd.github.v3+json"})
     url = request.urlopen(req)
     data = json.loads(url.read().decode('utf-8'))
