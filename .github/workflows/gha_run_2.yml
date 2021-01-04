@@ -48,4 +48,9 @@ jobs:
         if: ${{ success() }}
         env:
           SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
-        run: python $GITHUB_WORKSPACE/.ci/rerun_workflow.py "test_main.yml" "${{ github.event.client_payload.pr_number }}" "${{ github.event.client_payload.pr_branch }}" || true
+        run: |
+          python $GITHUB_WORKSPACE/.ci/rerun_workflow.py \
+            "test_main.yml" \
+            "${{ github.event.client_payload.pr_number }}" \
+            "${{ github.event.client_payload.pr_branch }}" \
+            || true
