@@ -30,17 +30,12 @@ jobs:
         with:
           fetch-depth: 5
           submodules: false
-      - name: Note that all tests succeeded
-        env:
-          SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
+      - name: Check that all tests succeeded
         run: |
-            all_success="yes"
             workflows=("Test 1"
                        "Test 2")
             for i in "${workflows[@]}"; do
-                status=$(python "$GITHUB_WORKSPACE/.ci/get_workflow_status.py" "$i") || all_success="no"
-                $GITHUB_WORKSPACE/.ci/set_commit_status.sh "$i" "$status" "${{ github.event.pull_request.head.sha }}"
+                python "$GITHUB_WORKSPACE/.ci/get_workflow_status.py" "$i" \
+                || { echo "The last reported status from workflow \"$i\" is failure. Commit fixes and rerun the workflow."; \
+                exit -1; }
             done
-            if [[ $check_succeeded == "no" ]]; then
-                exit -1
-            fi
