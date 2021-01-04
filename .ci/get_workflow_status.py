@@ -13,8 +13,9 @@ def get_runs(workflow_name):
     pr_runs = []
     if environ.get("GITHUB_EVENT_NAME", "") == "pull_request":
         pr_number = int(environ.get("GITHUB_REF").split('/')[-2])
-        req = request.Request(url="{}/repos/StrikerRUS/LightGBM/pulls/{}/comments?sort=created&direction=desc".format(environ.get("GITHUB_API_URL"),
-                                                                                                                      pr_number),
+        req = request.Request(url="{}/repos/StrikerRUS/LightGBM/pulls/{}/comments?"
+                                  "sort=created&direction=desc".format(environ.get("GITHUB_API_URL"),
+                                                                       pr_number),
                               headers={"Accept": "application/vnd.github.v3+json"})
         url = request.urlopen(req)
         data = json.loads(url.read().decode('utf-8'))
