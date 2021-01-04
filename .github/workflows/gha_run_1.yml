@@ -9,6 +9,8 @@ jobs:
     name: Test 1
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
     strategy:
       fail-fast: true
     steps:
@@ -21,8 +23,6 @@ jobs:
           ref: "refs/pull/${{ github.event.client_payload.pr_number }}/merge"
       - name: Send init status
         if: ${{ always() }}
-        env:
-          SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: |
           $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "pending" "${{ github.event.client_payload.pr_sha }}"
           $GITHUB_WORKSPACE/.ci/append_comment.sh \
@@ -35,8 +35,6 @@ jobs:
             $GITHUB_WORKSPACE/.ci/test_1.sh
       - name: Send final status
         if: ${{ always() }}
-        env:
-          SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: |
           $GITHUB_WORKSPACE/.ci/set_commit_status.sh "${{ github.workflow }}" "${{ job.status }}" "${{ github.event.client_payload.pr_sha }}"
           $GITHUB_WORKSPACE/.ci/append_comment.sh \
@@ -45,8 +43,6 @@ jobs:
             "Status: ${{ job.status }}."
       - name: Rerun main workflow
         if: ${{ success() }}
-        env:
-          SECRETS_WORKFLOW: ${{ secrets.WORKFLOW }}
         run: |
           python $GITHUB_WORKSPACE/.ci/rerun_workflow.py \
             "test_main.yml" \
