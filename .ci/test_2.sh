@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exit 12
+exit 0
